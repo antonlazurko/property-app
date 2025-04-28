@@ -1,5 +1,11 @@
 import '@/assets/styles/globals.css'
 
+export const metadata = {
+    title: 'Property App',
+    keywords: 'rent, buy, sell, property, real estate',
+    description: 'A property app for buying, selling, and renting properties',
+};
+
 import {ReactNode} from 'react'
 
 interface IMainLayoutProps{
