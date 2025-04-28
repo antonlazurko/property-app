@@ -5,10 +5,15 @@ import logo from "@/assets/images/logo-white.png";
 import profileImage from "@/assets/images/profile.png";
 import { FaGoogle } from 'react-icons/fa';
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+
+const defaultNavLinkClass = "text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2";
 
 const NavBar = () => {
+    const pathname = usePathname();
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(false);
     const toggleMobileMenu = () => {
         setMobileMenuOpen(prev => !prev);
     }
@@ -61,30 +66,36 @@ const NavBar = () => {
                             <div className="flex space-x-2">
                                 <Link
                                     href="/"
-                                    className="text-white bg-black hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+                                    className={`${
+                                        pathname === '/' ? 'bg-black' : ''
+                                    } ${defaultNavLinkClass}`}
                                     >Home</Link>
                                 <Link
                                     href="/properties"
-                                    className="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+                                    className={`${
+                                        pathname === '/properties' ? 'bg-black' : ''
+                                    } ${defaultNavLinkClass}`}
                                     >Properties</Link>
-                                <Link
+                                { isLoggedIn && <Link
                                     href="/add-property"
-                                    className="text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                                    >Add Property</Link>
+                                    className={`${
+                                        pathname === '/add-property' ? 'bg-black' : ''
+                                    } ${defaultNavLinkClass}`}
+                                    >Add Property</Link>}
                             </div>
                         </div>
                     </div>
 
-                    <div className="hidden md:block md:ml-6">
+                    {!isLoggedIn && <div className="hidden md:block md:ml-6">
                         <div className="flex items-center">
                             <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2">
                                 <FaGoogle className="text-white mr-2"/>
                                 <span>Login or Register</span>
                             </button>
                         </div>
-                    </div>
+                    </div>}
 
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
+                    {isLoggedIn && <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
                         <Link  href="messages" className="relative group">
                             <button
                                 type="button"
@@ -162,7 +173,7 @@ const NavBar = () => {
                                 </button>
                             </div>}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
             { isMobileMenuOpen && <div id="mobile-menu">
@@ -179,12 +190,12 @@ const NavBar = () => {
                         href="/add-property"
                         className="text-white block rounded-md px-3 py-2 text-base font-medium"
                         >Add Property</Link>
-                    <button
+                    { !isLoggedIn && <button
                         className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-5"
                     >
                         <FaGoogle className="text-white mr-2"/>
                         <span>Login or Register</span>
-                    </button>
+                    </button>}
                 </div>
             </div> }
         </nav>
