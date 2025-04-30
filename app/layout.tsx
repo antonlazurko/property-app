@@ -1,5 +1,6 @@
 import '@/assets/styles/globals.css'
 import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 
 export const metadata = {
     title: 'Property App',
@@ -21,6 +22,7 @@ const MainLayout = ({ children }: IMainLayoutProps) => {
                 <main className="container mx-auto">
                     {children}
                 </main>
+                <Footer />
             </body>
         </html>
     );

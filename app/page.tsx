@@ -1,13 +1,8 @@
-import Link from "next/link";
+import Hero from "@/components/Hero";
+import InfoBoxes from "@/components/InfoBoxes";
 
 const HomePage = () => (<>
-    <h1>
-        Home Page
-    </h1>
-    <p>
-        <Link href={{
-            pathname: "/properties",
-        }}>Go to Properties Page</Link>
-    </p>
+    <Hero />
+    <InfoBoxes />
     </>);
 export default HomePage;
