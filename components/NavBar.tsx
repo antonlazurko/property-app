@@ -174,6 +174,16 @@ const NavBar = () => {
                             </div>}
                         </div>
                     </div>}
+                    {/* remove after login is added */}
+                    <button
+                        className="block px-4 py-2 text-sm text-gray-700 bg-amber-50 rounded-md ml-2"
+                        role="menuitem"
+                        tabIndex={-1}
+                        id="user-menu-item-2"
+                        onClick={() => setLoggedIn(prev => !prev)}
+                    >
+                        {isLoggedIn ? "Log Out" : 'LogIn'}
+                    </button>
                 </div>
             </div>
             { isMobileMenuOpen && <div id="mobile-menu">
