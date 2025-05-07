@@ -8,7 +8,7 @@ const connectDB = async () => {
         return;
     }
     try {
-        await mongoose.connect(process.env.MONGO_DB_URI as string);
+        await mongoose.connect(process.env.MONGODB_URI as string);
         connected = true;
         console.log("MongoDB connected");
     }
