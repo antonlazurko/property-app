@@ -3,11 +3,14 @@ import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import { IProperty } from "@/types/property";
 
+type Params = Promise<{ id: string }>
+
 export const GET = async (
   req: NextRequest,
-  context: { params: { id: string } }
+  props: { params: Params }
 ): Promise<Response> => {
-  const { id } = await context.params;
+
+  const { id } = await props.params;
 
   try {
     await connectDB();
