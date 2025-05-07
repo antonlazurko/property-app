@@ -1,4 +1,4 @@
-import { IProperty } from "../page";
+import { IProperty } from "@/types/property";
 import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import PropertyHeaderImage from "@/components/PropertyHeaderImage";

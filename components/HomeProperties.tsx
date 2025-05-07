@@ -1,7 +1,7 @@
 import PropertyCard from './PropertyCard';
 import Link from 'next/link';
 import Property from '@/models/Property';
-import { IProperty } from '@/app/properties/page';
+import { IProperty } from "@/types/property";
 
 const HomeProperties = async() => {
     const recentProperties: IProperty[] = await Property.find({}).sort({ createdAt: -1 }).limit(3);

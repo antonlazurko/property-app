@@ -1,4 +1,4 @@
-import { IProperty } from '@/app/properties/page';
+import { IProperty } from "@/types/property";
 import {
   FaTimes,
   FaBed,
