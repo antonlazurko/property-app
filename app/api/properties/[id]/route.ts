@@ -1,24 +1,21 @@
+import { NextRequest } from "next/server"
 import connectDB from "@/config/db"
 import Property from "@/models/Property"
-import { IProperty } from "@/types/property";
+import { IProperty } from "@/types/property"
 
-
-interface RequestParams {
-    params: {
-        id: string;
-    };
-}
-
-export const GET = async (request: Request, { params }: RequestParams): Promise<Response> => {
+export const GET = async (request: NextRequest, { params }: { params: { id: string } }): Promise<Response> => {
     try {
-        connectDB();
-        const property: IProperty | null = await Property.findById(params.id);
+        await connectDB()
+        const property: IProperty | null = await Property.findById(params.id)
         if (!property) {
             return new Response("Property not found", { status: 404 })
         }
-        return new Response(JSON.stringify(property), { status: 200, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(property), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+        })
     } catch (error) {
-        console.error("Error fetching properties:", error);
-        return new Response("Failed to fetch properties", { status: 500 });
+        console.error("Error fetching property:", error)
+        return new Response("Failed to fetch property", { status: 500 })
     }
-};
+}
