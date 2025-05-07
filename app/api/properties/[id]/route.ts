@@ -4,12 +4,14 @@ import Property from "@/models/Property"
 import { IProperty } from "@/types/property"
 
 export const GET = async (
-  request: NextRequest,
-  context: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Record<string, string> }
 ): Promise<Response> => {
+  const { id } = await context.params
+
   try {
     await connectDB()
-    const property: IProperty | null = await Property.findById(context.params.id)
+    const property: IProperty | null = await Property.findById(id)
 
     if (!property) {
       return new Response("Property not found", { status: 404 })
