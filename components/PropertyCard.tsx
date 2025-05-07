@@ -2,42 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaBed, FaBath, FaRulerCombined, FaMoneyBill, FaMapMarker } from "react-icons/fa";
 
-interface IProperty {
-    _id: string;
-    owner: string;
-    name: string;
-    type: string;
-    description: string;
-    location: {
-        street: string;
-        city: string;
-        state: string;
-        zipcode: string;
-    };
-    beds: number;
-    baths: number;
-    square_feet: number;
-    amenities: string[];
-    rates: { [key: string]: number | undefined };
-    seller_info: {
-        name: string;
-        email: string;
-        phone: string;
-    };
-    images: string[];
-    is_featured: boolean;
-    createdAt: string; // ISO date string
-    updatedAt: string; // ISO date string
-}
+import { IProperty } from '@/app/properties/page';
 
 const PropertyCard = ({ property }: { property: IProperty }) => {
     const getRateDisplay = () => {
         const { rates } = property;
-            if (rates.monthly) {
+            if (rates?.monthly) {
                 return `$${rates.monthly.toLocaleString()}/mo`;
-            } else if (rates.weekly) {
+            } else if (rates?.weekly) {
                 return `$${rates.weekly.toLocaleString()}/wk`;
-            } else if (rates.nightly) {
+            } else if (rates?.nightly) {
                 return `$${rates.nightly.toLocaleString()}/night`;
             }
     };
