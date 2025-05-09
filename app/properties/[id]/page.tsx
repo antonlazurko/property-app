@@ -5,6 +5,7 @@ import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import PropertyDetails from "@/components/PropertyDetails";
 import Link from "next/link";
 import { FaArrowLeft } from 'react-icons/fa';
+import { notFound } from 'next/navigation';
 
 interface IPropertyPageParams {
     id: string;
@@ -17,9 +18,16 @@ interface IPropertyPageProps {
 const PropertyPage = async ({ params }: IPropertyPageProps) => {
     const { id } = await params;
     await connectDB();
-    const property = await Property.findById(id).lean<IProperty>();
+    let property: IProperty | null = null;
+    try {
+        property =  await Property.findById(id).lean<IProperty>();
+    } catch (error) {
+        console.error('error', error);
+        return notFound();
+    }
+
     if (!property) {
-        return <div>Property not found</div>;
+        return notFound();
     }
 
     return (
