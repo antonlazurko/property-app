@@ -4,22 +4,39 @@ import Image from "next/image";
 import logo from "@/assets/images/logo-white.png";
 import profileImage from "@/assets/images/profile.png";
 import { FaGoogle } from 'react-icons/fa';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useSession, getProviders } from "next-auth/react";
+import type { ClientSafeProvider } from "next-auth/react";
+
 
 const defaultNavLinkClass = "text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2";
 
 const NavBar = () => {
+    const { data: session } = useSession();
+
     const pathname = usePathname();
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
-    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null);
+    console.log(providers);
+
+
     const toggleMobileMenu = () => {
         setMobileMenuOpen(prev => !prev);
     }
     const toggleProfileMenu = () => {
         setProfileMenuOpen(prev => !prev);
     }
+
+    useEffect(() => {
+        const setAuthProviders = async () => {
+            const res = await getProviders();
+            setProviders(res);
+        }
+        setAuthProviders();
+    }, []);
+
     return (
         <nav className="bg-blue-700 border-b border-blue-500">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -76,7 +93,7 @@ const NavBar = () => {
                                         pathname === '/properties' ? 'bg-black' : ''
                                     } ${defaultNavLinkClass}`}
                                     >Properties</Link>
-                                { isLoggedIn && <Link
+                                { session && <Link
                                     href="/add-property"
                                     className={`${
                                         pathname === '/add-property' ? 'bg-black' : ''
@@ -86,7 +103,7 @@ const NavBar = () => {
                         </div>
                     </div>
 
-                    {!isLoggedIn && <div className="hidden md:block md:ml-6">
+                    {!session && <div className="hidden md:block md:ml-6">
                         <div className="flex items-center">
                             <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2">
                                 <FaGoogle className="text-white mr-2"/>
@@ -95,7 +112,7 @@ const NavBar = () => {
                         </div>
                     </div>}
 
-                    {isLoggedIn && <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
+                    {session && <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
                         <Link  href="messages" className="relative group">
                             <button
                                 type="button"
@@ -174,16 +191,6 @@ const NavBar = () => {
                             </div>}
                         </div>
                     </div>}
-                    {/* remove after login is added */}
-                    <button
-                        className="block px-4 py-2 text-sm text-gray-700 bg-amber-50 rounded-md ml-2"
-                        role="menuitem"
-                        tabIndex={-1}
-                        id="user-menu-item-2"
-                        onClick={() => setLoggedIn(prev => !prev)}
-                    >
-                        {isLoggedIn ? "Log Out" : 'LogIn'}
-                    </button>
                 </div>
             </div>
             { isMobileMenuOpen && <div id="mobile-menu">
@@ -200,7 +207,7 @@ const NavBar = () => {
                         href="/add-property"
                         className="text-white block rounded-md px-3 py-2 text-base font-medium"
                         >Add Property</Link>
-                    { !isLoggedIn && <button
+                    { !session && <button
                         className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-5"
                     >
                         <FaGoogle className="text-white mr-2"/>
