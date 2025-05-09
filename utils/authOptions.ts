@@ -1,3 +1,5 @@
+import connectDB from '@/config/db';
+import User from '@/models/User';
 import type { NextAuthOptions } from 'next-auth';
 import NextAuth, { Session } from 'next-auth';
 
@@ -19,24 +21,37 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile }) {
-      if (profile?.email && profile.email.endsWith('@gmail.com')) {
+      await connectDB();
+      const existingUser = await User.findOne({ email: profile?.email });
+      if (!existingUser) {
+        const userName = profile?.name?.slice(0, 20);
+        await User.create({
+          email: profile?.email,
+          userName,
+          image: (profile as { picture?: string })?.picture,
+          bookmarks: [],
+        });
         return true;
       }
       return false;
     },
     async session({
       session,
-      token,
+      // token,
     }: {
       session: Session & { accessToken?: string };
-      token: import('next-auth/jwt').JWT & { accessToken?: string };
+      // token: import('next-auth/jwt').JWT & { accessToken?: string };
     }) {
-      if (token.accessToken) session.accessToken = token.accessToken;
-      return session;
-    },
-    async jwt({ token, account }) {
-      if (account?.access_token) token.accessToken = account.access_token;
-      return token;
+      const user = await User.findOne({ email: session?.user?.email });
+
+      // if (token.accessToken) session.accessToken = token.accessToken;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user?._id.toString(),
+        },
+      };
     },
   },
 };
