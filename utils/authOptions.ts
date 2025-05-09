@@ -1,6 +1,5 @@
-import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
-import { Session } from 'next-auth';
+import NextAuth, { Session } from 'next-auth';
 
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -20,7 +19,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile }) {
-      if (profile?.email && profile.email.endsWith('@example.com')) {
+      if (profile?.email && profile.email.endsWith('@gmail.com')) {
         return true;
       }
       return false;

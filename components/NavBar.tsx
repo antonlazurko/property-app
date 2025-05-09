@@ -1,13 +1,13 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
 import logo from '@/assets/images/logo-white.png';
 import profileImage from '@/assets/images/profile.png';
-import { FaGoogle } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import { signIn, useSession, getProviders } from 'next-auth/react';
 import type { ClientSafeProvider } from 'next-auth/react';
+import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaGoogle } from 'react-icons/fa';
 
 const defaultNavLinkClass = 'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
 
@@ -33,6 +33,9 @@ const NavBar = () => {
     };
     setAuthProviders();
   }, []);
+
+  console.log('session', session);
+
 
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
@@ -165,7 +168,7 @@ const NavBar = () => {
                       width={32}
                       height={32}
                       className="h-8 w-8 rounded-full"
-                      src={profileImage}
+                      src={session?.user?.image || profileImage}
                       alt=""
                     />
                   </button>
@@ -202,6 +205,9 @@ const NavBar = () => {
                       role="menuitem"
                       tabIndex={-1}
                       id="user-menu-item-2"
+                      onClick={() => {
+                        signOut();
+                      }}
                     >
                       Sign Out
                     </button>
