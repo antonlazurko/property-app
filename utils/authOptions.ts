@@ -1,46 +1,45 @@
-import NextAuth from "next-auth";
-import type { NextAuthOptions } from "next-auth";
-import { Session } from "next-auth";
+import NextAuth from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
+import { Session } from 'next-auth';
 
-import GoogleProvider from "next-auth/providers/google";
-
+import GoogleProvider from 'next-auth/providers/google';
 
 export const authOptions: NextAuthOptions = {
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID || "",
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code",
-                },
-            },
-        }),
-    ],
-    callbacks: {
-        async signIn({ profile }) {
-                if (profile?.email && profile.email.endsWith("@example.com")) {
-                    return true;
-                }
-            return false;
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
         },
-        async session({
-                session,
-                token,
-            }: {
-                session: Session & { accessToken?: string };
-                token: import('next-auth/jwt').JWT & { accessToken?: string };
-            }) {
-            if (token.accessToken) session.accessToken = token.accessToken;
-            return session;
-        },
-        async jwt({ token, account }) {
-            if (account?.access_token) token.accessToken = account.access_token;
-            return token;
-        },
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({ profile }) {
+      if (profile?.email && profile.email.endsWith('@example.com')) {
+        return true;
+      }
+      return false;
     },
+    async session({
+      session,
+      token,
+    }: {
+      session: Session & { accessToken?: string };
+      token: import('next-auth/jwt').JWT & { accessToken?: string };
+    }) {
+      if (token.accessToken) session.accessToken = token.accessToken;
+      return session;
+    },
+    async jwt({ token, account }) {
+      if (account?.access_token) token.accessToken = account.access_token;
+      return token;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
