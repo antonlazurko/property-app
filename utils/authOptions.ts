@@ -31,9 +31,8 @@ export const authOptions: NextAuthOptions = {
           image: (profile as { picture?: string })?.picture,
           bookmarks: [],
         });
-        return true;
       }
-      return false;
+      return true;
     },
     async session({
       session,

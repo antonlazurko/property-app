@@ -1,6 +1,6 @@
 'use client';
 import logo from '@/assets/images/logo-white.png';
-import profileImage from '@/assets/images/profile.png';
+import defaultProfileImage from '@/assets/images/profile.png';
 import type { ClientSafeProvider } from 'next-auth/react';
 import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -13,6 +13,7 @@ const defaultNavLinkClass = 'text-white hover:bg-gray-900 hover:text-white round
 
 const NavBar = () => {
   const { data: session } = useSession();
+  const profileImage = session?.user?.image;
 
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -91,9 +92,9 @@ const NavBar = () => {
                 </Link>
                 {session && (
                   <Link
-                    href="/add-property"
+                    href="/properties/add"
                     className={`${
-                      pathname === '/add-property' ? 'bg-black' : ''
+                      pathname === '/properties/add-property' ? 'bg-black' : ''
                     } ${defaultNavLinkClass}`}
                   >
                     Add Property
@@ -165,7 +166,7 @@ const NavBar = () => {
                       width={32}
                       height={32}
                       className="h-8 w-8 rounded-full"
-                      src={session?.user?.image || profileImage}
+                      src={ profileImage || defaultProfileImage}
                       alt=""
                     />
                   </button>
@@ -203,7 +204,9 @@ const NavBar = () => {
                       tabIndex={-1}
                       id="user-menu-item-2"
                       onClick={() => {
-                        signOut();
+                        signOut({
+                          callbackUrl: '/properties',
+                        });
                       }}
                     >
                       Sign Out
@@ -231,7 +234,7 @@ const NavBar = () => {
               Properties
             </Link>
             <Link
-              href="/add-property"
+              href="/add"
               className="text-white block rounded-md px-3 py-2 text-base font-medium"
             >
               Add Property

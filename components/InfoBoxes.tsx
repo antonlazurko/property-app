@@ -10,7 +10,7 @@ const InfoBoxes = () => {
           </InfoBox>
           <InfoBox
             heading="For Property Owners"
-            linkFor="/add-property"
+            linkFor="/properties/add"
             linkTitle="Add Property"
             linkBgColor="bg-blue-500"
             backgroundColor="bg-blue-100"

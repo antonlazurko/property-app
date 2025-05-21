@@ -1,4 +1,4 @@
-import { Schema, model, models, Types } from 'mongoose';
+import { model, models, Schema, Types } from 'mongoose';
 
 export interface IUser {
   _id?: Types.ObjectId;
@@ -24,10 +24,12 @@ const UserSchema = new Schema<IUser>(
     image: {
       type: String,
     },
-    bookmarks: {
-      type: Schema.Types.ObjectId,
-      ref: 'Property',
-    },
+    bookmarks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Property',
+      },
+    ]
   },
   {
     timestamps: true,
