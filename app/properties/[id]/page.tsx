@@ -1,18 +1,18 @@
-import { IProperty } from '@/types/property';
+import PropertyDetails from '@/components/PropertyDetails';
+import PropertyHeaderImage from '@/components/PropertyHeaderImage';
 import connectDB from '@/config/db';
 import Property from '@/models/Property';
-import PropertyHeaderImage from '@/components/PropertyHeaderImage';
-import PropertyDetails from '@/components/PropertyDetails';
+import { IProperty } from '@/types/property';
 import Link from 'next/link';
-import { FaArrowLeft } from 'react-icons/fa';
 import { notFound } from 'next/navigation';
+import { FaArrowLeft } from 'react-icons/fa';
 
 interface IPropertyPageParams {
   id: string;
 }
 
 interface IPropertyPageProps {
-  params: Promise<IPropertyPageParams>;
+  params: IPropertyPageParams;
 }
 
 const PropertyPage = async ({ params }: IPropertyPageProps) => {
