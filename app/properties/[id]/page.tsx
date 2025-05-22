@@ -12,7 +12,7 @@ interface IPropertyPageParams {
 }
 
 interface IPropertyPageProps {
-  params: IPropertyPageParams;
+  params: Promise<IPropertyPageParams>;
 }
 
 const PropertyPage = async ({ params }: IPropertyPageProps) => {
