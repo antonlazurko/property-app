@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaBed, FaBath, FaRulerCombined, FaMoneyBill, FaMapMarker } from 'react-icons/fa';
+import { FaBath, FaBed, FaMapMarker, FaMoneyBill, FaRulerCombined } from 'react-icons/fa';
 
 import { IProperty } from '@/types/property';
 
@@ -18,7 +18,7 @@ const PropertyCard = ({ property }: { property: IProperty }) => {
   return (
     <div className="rounded-xl shadow-md relative">
       <Image
-        src={`/images/properties/${property.images[0]}`}
+        src={property.images[0]}
         alt=""
         width="0"
         height="0"
@@ -45,7 +45,7 @@ const PropertyCard = ({ property }: { property: IProperty }) => {
           </p>
           <p>
             <FaRulerCombined className="md:hidden lg:inline" />
-            {property.square_feet} <span className="md:hidden lg:inline">sqft</span>
+            {property.square_feet} <span className="md:hidden lg:inline">square feet</span>
           </p>
         </div>
 

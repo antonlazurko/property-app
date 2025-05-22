@@ -29,7 +29,7 @@ const UserSchema = new Schema<IUser>(
         type: Schema.Types.ObjectId,
         ref: 'Property',
       },
-    ]
+    ],
   },
   {
     timestamps: true,
